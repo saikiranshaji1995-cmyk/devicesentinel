@@ -1,6 +1,6 @@
 # Quarterly release checklist
 
-Target a release every three months (January, April, July, and October). The owner prepares and publishes each release; the calendar is a target, not a reason to ship with unresolved security issues.
+Target a release every three months, measured from the previous release. The first release is `v0.1.0`; subsequent target dates are February 15, May 15, August 15, and November 15. The owner prepares and publishes each release; the calendar is a target, not a reason to ship with unresolved security issues.
 
 1. Review changes and security reports; update the changelog and version.
 2. Run the GitHub Actions security workflow on the release commit.
