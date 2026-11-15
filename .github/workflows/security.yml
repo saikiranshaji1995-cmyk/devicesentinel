@@ -1,0 +1,28 @@
+name: Security checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python source
+        run: python -m py_compile devicesentinel.py
+      - name: Check for whitespace errors
+        run: git diff --check
+      - name: Scan source for common credential patterns
+        run: |
+          if grep -RInE '(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{30,})' --exclude-dir=.git .; then
+            echo "Potential credential pattern found"
+            exit 1
+          fi
